@@ -1,0 +1,79 @@
+// ใช้เช็คเพื่อดูว่า Docker ได้ถูกติดตั้งและกำหนดค่าอย่างถูกต้องหรือไม่
+docker -v
+
+// ใช้รันคอนเทนเนอร์ตัวอย่างเพื่อทดสอบว่า Docker สามารถดึงและรันอิมเมจได้อย่างถูกต้อง
+docker run hello-world
+
+// ใช้ดูรายการคอนเทนเนอร์ทั้งหมดที่กำลังรันอยู่
+docker ps --all
+
+// ใช้ดูรายการอิมเมจทั้งหมดที่มีอยู่ในเครื่อง
+docker images
+
+// ใช้รันคอนเทนเนอร์จากอิมเมจ busybox และใช้คำสั่ง ping เพื่อตรวจสอบการเชื่อมต่ออินเทอร์เน็ต
+docker run busybox ping google.com
+
+// ใช้หยุดคอนเทนเนอร์ที่กำลังรันอยู่ โดยแทนที่ <container_id> ด้วย ID ของคอนเทนเนอร์ที่ต้องการหยุด
+docker stop <container_id>
+
+// ใช้เพื่อดึงอิมเมจ <image_name> ด้วยชื่อของอิมเมจที่ต้องการดึง
+docker pull <image_name>
+
+// ใช้สร้างคอนเทนเนอร์ใหม่จากอิมเมจที่ระบุ โดยแทนที่ <image_name> ด้วยชื่อของอิมเมจ และ <name> ด้วยชื่อที่ต้องการให้กับคอนเทนเนอร์
+docker create <image_name> <name>
+
+// ใช้เริ่มคอนเทนเนอร์ที่ถูกสร้างขึ้น โดยแทนที่ <container_id> ด้วย ID ของคอนเทนเนอร์ที่ต้องการเริ่ม
+docker start <container_id>
+
+// ใช้ลบคอนเทนเนอร์ที่ไม่ต้องการ โดยแทนที่ <container_id> ด้วย ID ของคอนเทนเนอร์ที่ต้องการลบ
+docker rm <container_id>
+
+// !!!!!ใช้ลบข้อมูลที่ไม่จำเป็นทั้งหมด เช่น คอนเทนเนอร์ที่หยุดแล้ว อิมเมจที่ไม่ได้ใช้งาน และเครือข่ายที่ไม่ได้ใช้งาน เพื่อเพิ่มพื้นที่ว่างในระบบ!!!!!
+docker system prune 
+
+// ใช้รันคอนเทนเนอร์จากอิมเมจ nginx เพื่อทดสอบการทำงานของเว็บเซิร์ฟเวอร์
+docker run nginx
+
+// ใช้เข้าสู่เชลล์ของคอนเทนเนอร์ที่กำลังรันอยู่ โดยแทนที่ <container_id> ด้วย ID ของคอนเทนเนอร์ที่ต้องการเข้าสู่เชลล์
+docker exec -it <container_id> sh 
+
+// ใช้เข้าสู่เชลล์ของคอนเทนเนอร์ที่กำลังรันอยู่ โดยแทนที่ <container_id> ด้วย ID ของคอนเทนเนอร์ที่ต้องการเข้าสู่เชลล์ และใช้ bash แทน sh หากคอนเทนเนอร์นั้นมี bash ติดตั้งอยู่
+docker exec -it <container_id> bash
+
+cd /usr/share/nginx/html
+cat index.html
+
+// ใช้รันคอนเทนเนอร์จากอิมเมจ nginx และทำการแมปพอร์ต 80 ของคอนเทนเนอร์ไปยังพอร์ต 80 ของโฮสต์ เพื่อให้สามารถเข้าถึงเว็บเซิร์ฟเวอร์ได้จากภายนอก
+docker run -p 80:80 nginx
+
+// ใช้รันคอนเทนเนอร์จากอิมเมจ nginx และทำการแมปพอร์ต 80 ของคอนเทนเนอร์ไปยังพอร์ต 9000 ของโฮสต์ เพื่อให้สามารถเข้าถึงเว็บเซิร์ฟเวอร์ได้จากภายนอกผ่านพอร์ต 9000
+docker run -p 9000:80 nginx
+
+
+// ใช้รันคอนเทนเนอร์จากอิมเมจ nginx ในโหมด detached (รันในพื้นหลัง) และทำการแมปพอร์ต 80 ของคอนเทนเนอร์ไปยังพอร์ต 8000 ของโฮสต์ เพื่อให้สามารถเข้าถึงเว็บเซิร์ฟเวอร์ได้จากภายนอกผ่านพอร์ต 8000
+docker run -d -p 8000:80 nginx
+
+// ใช้ดูรายการอิมเมจทั้งหมดที่มีอยู่ในเครื่อง
+docker image ls 
+
+// ใช้ดูรายละเอียดของอิมเมจ nginx เพื่อดูข้อมูลเกี่ยวกับอิมเมจ เช่น ขนาด, เวอร์ชัน, และคำสั่งที่ใช้ในการสร้างอิมเมจ
+docker image inspect nginx
+
+// ใช้ลบอิมเมจที่ไม่ต้องการ โดยแทนที่ <image_id_or_name> ด้วย ID ของอิมเมจที่ต้องการลบ
+docker image rm <image_id_or_name>
+
+// ใช้ดึงอิมเมจ wordpress จาก Docker Hub เพื่อใช้ในการสร้างคอนเทนเนอร์สำหรับเว็บไซต์ WordPress
+
+docker pull wordpress
+docker pull mysql:5.7
+docker pull phpmyadmin/phpmyadmin
+
+// ใช้สร้างเครือข่าย Docker ที่ชื่อว่า wordpress เพื่อให้คอนเทนเนอร์ต่าง ๆ สามารถสื่อสารกันได้ภายในเครือข่ายนี้
+docker network create wordpress
+
+// ใช้ดูรายการเครือข่ายทั้งหมดที่มีอยู่ในเครื่อง
+docker network ls 
+
+docker run --name mysql --network wordpress -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=wordpress_db -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=wordpress -d mysql:5.7
+docker run --name pma --network wordpress -p 8888:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
+docker run -d --name wordpress --network wordpress -p 888:80 -e WORDPRESS_DB_HOST=mysql -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress_db wordpress
