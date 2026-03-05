@@ -1,0 +1,43 @@
+แบบ Volume
+// ใช้คำสั่งนี้เพื่อแสดงรายการ Volume ที่มีอยู่ในระบบ
+docker volume ls 
+
+// ใช้คำสั่งนี้เพื่อสร้าง Volume ใหม่ที่ชื่อว่า wp_volume
+docker volume create wp_volume 
+docker volume create mysql_volume
+
+// ใช้คำสั่งนี้เพื่อลบ Volume ที่ไม่ต้องการ โดยแทนที่ <volume_name> ด้วยชื่อของ Volume ที่ต้องการลบ
+docker volume rm wp_volume mysql_volume 
+
+docker container inspect wordpress
+ที่อยู่ volume /var/www/html
+
+docker container inspect mysql
+ที่อยู่ volume /var/lib/mysql
+
+สร้างเอง
+docker volume create wp_volume
+docker network create wordpress02
+docker volume create mysql_volume
+
+docker run -d --name mysql02 --network wordpress02 -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=wordpress02_db -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=wordpress  mysql:5.7
+docker run -d --name wordpress02 --network wordpress02 -v wp_volume:/var/www/html -e WORDPRESS_DB_HOST=mysql02 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress02_db -p 889:80 wordpress
+docker run --name pma02 --network wordpress02 -p 8889:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
+phattaradanai
+*EH4HH*oJr(aFi96^2
+
+แบบ Bind Mount
+docker network create wordpress03
+docker run -d --name mysql03 --network wordpress03 -v C:\docker101\mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=wordpress03_db -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=wordpress  mysql:5.7
+docker run -d --name wordpress03 --network wordpress03 -v C:\docker101\wp:/var/www/html -e WORDPRESS_DB_HOST=mysql03 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress03_db -p 890:80 wordpress
+docker run --name pma03 --network wordpress03 -p 8890:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
+phattaradanai
+aCxnVEhKiEf%XBVctm
+
+
+phattaradanai
+RymrvMkiO4kAafSqUf
+
+
+Portainer.io
+docker run -d -p 8000:8000 -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
